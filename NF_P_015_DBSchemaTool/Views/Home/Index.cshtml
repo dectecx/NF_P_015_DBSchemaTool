@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <label>
+                Connection String
+                <input type="text" class="form-control" id="connectString" placeholder="請輸入連線字串">
+            </label>
+        </div>
+        <button type="button" class="btn btn-light" onclick="submitBtn()">確認</button>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-12">
+            <ul>
+                <li>
+                    工具介紹
+                    <p>SchemaNote(以下簡稱本平台)是用來檢視、編輯SQL Server上自定義註記之Web平台</p>
+                </li>
+                <li>
+                    原理說明
+                    <p>本平台註記原理在於利用資料庫物件的<a href="https://learn.microsoft.com/zh-tw/sql/relational-databases/databases/database-object-extended-properties-page?view=sql-server-ver16" target="_blank">擴充屬性</a></p>
+                </li>
+                <li>
+                    注意事項
+                    <ul>
+                        <li>建議使用SQL Server版本2008(含)以上</li>
+                        <li>本平台僅異動擴充屬性，不能控制其他資料庫物件、結構</li>
+                        <li>目前只支援資料表(Table)，檢視表(View)這兩種物件</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        /**確認按鈕 */
+        function submitBtn() {
+            let connectString = $('#connectString').val();
+            axios.post('/', {
+                connectString: connectString
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+                alert(`執行失敗:${error}`)
+            });
+        }
+    </script>
+}
