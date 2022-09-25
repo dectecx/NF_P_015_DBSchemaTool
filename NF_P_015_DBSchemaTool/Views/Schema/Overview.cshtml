@@ -1,0 +1,68 @@
+﻿@model OverviewVm
+
+<h1>Overview</h1>
+<div class="d-flex flex-row align-items-center flex-wrap mb-4">
+    <label>搜尋項目</label>
+    <select class="form-control">
+        <option value="">物件名稱</option>
+    </select>
+    <label>搜索方式</label>
+    <select class="form-control">
+        <option value="">模糊搜尋</option>
+    </select>
+    <input type="text" class="form-control" placeholder="Enter key words..." />
+    <button type="button" class="btn btn-light">匯出擴充屬性Script</button>
+</div>
+@foreach (var table in Model.TableInfos)
+{
+    @*TODO: 待改成PartialView*@
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-10">
+                    <label class="fw-bold">@table.Name</label> - <a href="">@table.Description</a>
+                </div>
+                <div class="col-2" style="display: flex; justify-content: flex-end;">
+                    <label>筆數:<span>@table.Count</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>欄位名稱</th>
+                                        <th>欄位說明</th>
+                                        <th>資料型態</th>
+                                        <th>主鍵</th>
+                                        <th>不為Null</th>
+                                        <th>預設值</th>
+                                        <th>備註</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var col in table.Columns)
+                                    {
+                                        <tr class="odd">
+                                            <td>@col.Name</td>
+                                            <td>@col.Description</td>
+                                            <td>@col.ColumnType</td>
+                                            <td>@col.IsPrimaryKey</td>
+                                            <td>@col.NotNull</td>
+                                            <td>@col.DefaultValue</td>
+                                            <td>@col.Note</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

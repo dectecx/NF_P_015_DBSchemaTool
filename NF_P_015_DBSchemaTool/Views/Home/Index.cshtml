@@ -1,15 +1,8 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
-
-<div class="row">
+﻿<div class="row">
     <div class="col-12">
-        <div class="form-group">
-            <label>
-                Connection String
-                <input type="text" class="form-control" id="connectString" placeholder="請輸入連線字串">
-            </label>
+        <div class="d-flex flex-row align-items-center flex-wrap">
+            <label>Connection String</label>
+            <input type="text" class="form-control" id="connectString" value="For Test value" placeholder="請輸入連線字串">
         </div>
         <button type="button" class="btn btn-light" onclick="submitBtn()">確認</button>
     </div>
@@ -44,13 +37,19 @@
         /**確認按鈕 */
         function submitBtn() {
             let connectString = $('#connectString').val();
-            axios.post('/', {
+            axios.post('@Url.Action("Connect", "Schema")', {
                 connectString: connectString
             }).then(function (response) {
                 console.log(response);
+                if (response.data.IsOk) {
+                    location.href = '@Url.Action("Overview", "Schema")';
+                } else {
+                    console.log(response);
+                    alert(`連線失敗`);
+                }
             }).catch(function (error) {
                 console.log(error);
-                alert(`執行失敗:${error}`)
+                alert(`執行失敗:${error}`);
             });
         }
     </script>
